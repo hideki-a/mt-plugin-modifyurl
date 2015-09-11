@@ -1,0 +1,11 @@
+id: ModifyURL
+name: ModifyURL
+version: 1.0.0
+description: URIをルートからのパスに変換したり、スマートフォン版サイトのパスに変換したりします。
+author_name: Hideki Abe
+author_link: https://www.anothersky.pw/
+
+tags:
+    modifier:
+        relative: $ModifyURL::ModifyURL::Tags::_hdlr_relativeurl
+        sp: $ModifyURL::ModifyURL::Tags::_hdlr_smartphone
