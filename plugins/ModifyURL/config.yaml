@@ -5,6 +5,11 @@ description: URIをルートからのパスに変換したり、スマートフ�
 author_name: Hideki Abe
 author_link: https://www.anothersky.pw/
 
+blog_config_template: path_setting.tmpl
+settings:
+    path_setting:
+        default: sp
+
 tags:
     modifier:
         relative: $ModifyURL::ModifyURL::Tags::_hdlr_relativeurl

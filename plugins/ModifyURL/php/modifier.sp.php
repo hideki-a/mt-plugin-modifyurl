@@ -12,22 +12,28 @@ function smarty_modifier_sp($str, $args)
     if ($websiteId) {
         $website = $mt->db()->fetch_blog($websiteId);
         $websiteUrl = $website->site_url;
+
+        $cfg = $mt->db()->fetch_plugin_data('ModifyURL', 'configuration:blog:' . $websiteId);
+        $path = $cfg['path_setting'];
     } else {
         $websiteUrl = $ctx->__stash['blog']->site_url;
+
+        $cfg = $mt->db()->fetch_plugin_data('ModifyURL', 'configuration:blog:' . $ctx->__stash['blog_id']);
+        $path = $cfg['path_setting'];
     }
 
     if (strpos($str, 'http') === FALSE) {
-        $path = preg_replace('/https?:\/\/[^\/]+/', '', $websiteUrl);
+        $blog_path = preg_replace('/https?:\/\/[^\/]+/', '', $websiteUrl);
 
-        if ($path === '/') {
-            $str = $path . 'sp' . $str;
-        } else if (preg_match('/\/$/', $path)) {
-            $str = $path . 'sp/' . str_replace($path, '', $str);
+        if ($blog_path === '/') {
+            $str = $blog_path . $path . $str;
+        } else if (preg_match('/\/$/', $blog_path)) {
+            $str = $blog_path . $path . '/' . str_replace($blog_path, '', $str);
         } else {
-            $str = '/sp' . $str;
+            $str = '/' . $path . $str;
         }
     } else {
-        $str = str_replace($websiteUrl, $websiteUrl . 'sp/', $str);
+        $str = str_replace($websiteUrl, $websiteUrl . $path . '/', $str);
     }
 
     return $str;

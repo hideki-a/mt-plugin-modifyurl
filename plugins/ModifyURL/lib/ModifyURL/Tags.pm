@@ -18,19 +18,23 @@ sub _hdlr_smartphone {
     my $blog = $ctx->stash('blog') || return;
     my $website_id = $blog->parent_id || 0;
     my $website_url;
+    my $plugin = MT->component('ModifyURL');
+    my $path;
 
     if ($website_id == 0) {
         $website_url = $blog->site_url;
+        $path = $plugin->get_config_value('path_setting', 'blog:' . $ctx->stash('blog_id'));
     } else {
         my $website = MT::Blog->load($website_id) || return;
         $website_url = $website->site_url;
+        $path = $plugin->get_config_value('path_setting', 'blog:' . $website_id);
     }
 
     if ($str =~ /^http/) {
-        $str =~ s/($website_url)/$1sp\//;
+        $str =~ s/($website_url)/$1$path\//;
     } else {
-        (my $path = $website_url) =~ s/https?:\/\/[^\/]+//;
-        $str =~ s/($path)/$1sp\// . $str;
+        (my $blog_path = $website_url) =~ s/https?:\/\/[^\/]+//;
+        $str =~ s/($blog_path)/$1$path\// . $str;
     }
 
     return $str;
