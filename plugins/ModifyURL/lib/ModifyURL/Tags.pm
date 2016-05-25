@@ -34,7 +34,7 @@ sub _hdlr_smartphone {
         $str =~ s/($website_url)/$1$path\//;
     } else {
         (my $blog_path = $website_url) =~ s/https?:\/\/[^\/]+//;
-        $str =~ s/($blog_path)/$1$path\// . $str;
+        $str =~ s/($blog_path)/$1$path\//;
     }
 
     return $str;
